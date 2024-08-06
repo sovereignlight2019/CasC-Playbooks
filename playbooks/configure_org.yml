@@ -7,17 +7,18 @@
   pre_tasks:
     - name: Include environment-level vars
       ansible.builtin.include_vars:
-        file: "{{ env_dir }}/org_admin_credentials.yml"
+        file: "environments/{{ lookup('env', 'BRANCH_NAME') }}/org_admin_credentials.yml"
 
     - name: Include organization-specific vars
       ansible.builtin.include_vars:
-        dir: "{{ env_dir }}/org_teams.d"
+        dir: "environments/{{ lookup('env', 'BRANCH_NAME') }}/org_teams.d"
         extensions: ["yml"]
 
   roles:
     - role: infra.controller_configuration.teams
       vars:
         controller_hostname: "{{ controller_hostname }}"
-        controller_username: "{{ org_admin_username }}"
-        controller_password: "{{ org_admin_password }}"
+        controller_username: "{{ org_admin }}"
+        controller_password: "{{ org_password }}"
       when: controller_teams is defined
+
