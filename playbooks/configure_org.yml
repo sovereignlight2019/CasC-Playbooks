@@ -16,7 +16,7 @@
 
     - name: Include organization-specific vars
       ansible.builtin.include_vars:
-        dir: "../environments/{{ lookup('env', 'BRANCH_NAME') }}/org_teams.d"
+        dir: "environments/{{ lookup('env', 'BRANCH_NAME') }}/org_teams.d"
         extensions: ["yml"]
 
   roles:
