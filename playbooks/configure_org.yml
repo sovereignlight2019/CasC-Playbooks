@@ -8,19 +8,16 @@
     - name: Include environment-level vars
       ansible.builtin.include_vars:
         file: "../environments/{{ lookup('env', 'BRANCH_NAME') }}/org_admin_credentials.yml"
+      register: env_vars
 
     - name: Debug environment-level vars
       debug:
-        var: org_admin_credentials
-
-    - name: Debug org_admin variable after inclusion
-      debug:
-        msg: "org_admin: {{ org_admin }}, org_password: {{ org_password }}"
+        var: env_vars
 
     - name: Set org_admin and org_password variables
       set_fact:
-        org_admin: "{{ org_admin }}"
-        org_password: "{{ org_password }}"
+        org_admin: "{{ env_vars.org_admin }}"
+        org_password: "{{ env_vars.org_password }}"
 
     - name: Debug org_admin and org_password after set_fact
       debug:
@@ -38,4 +35,3 @@
         controller_username: "{{ org_admin }}"
         controller_password: "{{ org_password }}"
       when: controller_teams is defined
-
