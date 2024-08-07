@@ -16,8 +16,8 @@
 
     - name: Set org_admin and org_password variables
       set_fact:
-        org_admin: "{{ env_vars.org_admin }}"
-        org_password: "{{ env_vars.org_password }}"
+        org_admin: "{{ env_vars.ansible_facts.org_admin_username }}"
+        org_password: "{{ env_vars.ansible_facts.org_admin_password }}"
 
     - name: Debug org_admin and org_password after set_fact
       debug:
@@ -31,7 +31,7 @@
   roles:
     - role: infra.controller_configuration.teams
       vars:
-        controller_hostname: "{{ controller_hostname }}"
+        controller_hostname: "{{ env_vars.ansible_facts.controller_hostname }}"
         controller_username: "{{ org_admin }}"
         controller_password: "{{ org_password }}"
       when: controller_teams is defined
